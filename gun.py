@@ -21,10 +21,11 @@ class Gun:
         self.charged = True
         self.start_recharge = 0
 
-    def render(self, level):
+    def render(self, level, canvas):
         for block in level:
             for bullet in self.cage:
                 bullet.move()
+                pygame.draw.rect(canvas, (255, 255, 0), [bullet.x, bullet.y, bullet.w, bullet.h], 0)
                 if all(block.collision(bullet)):
                     self.cage.pop(self.cage.index(bullet))
 
