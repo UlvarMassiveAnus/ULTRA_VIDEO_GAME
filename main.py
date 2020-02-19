@@ -43,8 +43,8 @@ while run:
         if i.type == pygame.QUIT:
             run = False
 
-    current_scene.render(pygame.mouse.get_pos(), pygame.key.get_pressed())
-    nextScene = current_scene.move(pygame.key.get_pressed())
+    current_scene.render()
+    nextScene = current_scene.move()
 
     if nextScene == "Play":
         current_scene = game
@@ -53,6 +53,5 @@ while run:
 
     window.blit(screen, (0, 0))
     pygame.display.flip()
-
 
 pygame.quit()

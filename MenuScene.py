@@ -8,7 +8,8 @@ class Menu:
         self.canvas = canvas
         self.create_menu()
 
-    def render(self, mouse_coords, keys):
+    def render(self):
+        mouse_coords = pygame.mouse.get_pos()
         self.canvas.fill((100, 100, 0))
         for punct in self.puncts:
             punct.hover(mouse_coords)
@@ -17,11 +18,11 @@ class Menu:
             else:
                 pygame.draw.rect(self.canvas, pygame.Color('red'), punct.position, 0)
 
-    def move(self, keys):
-        if keys[pygame.K_SPACE]:
+    def move(self):
+        m_keys = pygame.mouse.get_pressed()
+        if m_keys[0]:
             for p in self.puncts:
                 if p.state:
-                    print(p.pname)
                     return p.pname
 
     def create_menu(self):

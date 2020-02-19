@@ -11,7 +11,8 @@ class GameScene:
         self.player = Steve()
         self.gun = Gun()
 
-    def render(self, mouse_coords, keys):
+    def render(self):
+        keys = pygame.key.get_pressed()
         self.canvas.fill((0, 0, 0))
         if keys[pygame.K_LEFT]:
             self.player.speed_x = -2
@@ -36,7 +37,8 @@ class GameScene:
         self.gun.recharge()
         self.gun.render(self.level.level, self.canvas)
 
-    def move(self, keys):
+    def move(self):
+        keys = pygame.key.get_pressed()
         if keys[pygame.K_BACKSPACE]:
             return "menu"
 
