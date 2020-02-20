@@ -1,6 +1,7 @@
 import pygame
 from GameScene import GameScene
 from MenuScene import MenuScene
+from SettingsScene import SettingsScene
 
 pygame.init()
 size = width, height = 800, 600
@@ -32,6 +33,7 @@ l_map = [
     '_                              _',
     '________________________________'
 ]
+settings = SettingsScene(screen)
 game = GameScene(l_map, screen)
 menu = MenuScene(screen, ['play', 'settings', 'exit'])
 current_scene = menu
@@ -50,6 +52,8 @@ while run:
         current_scene = game
     elif nextScene == "menu":
         current_scene = menu
+    elif nextScene == "settings":
+        current_scene = settings
 
     window.blit(screen, (0, 0))
     pygame.display.flip()

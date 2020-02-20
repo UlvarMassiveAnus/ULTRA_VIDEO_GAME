@@ -14,11 +14,11 @@ class GameScene:
     def render(self):
         keys = pygame.key.get_pressed()
         self.canvas.fill((0, 0, 0))
-        if keys[pygame.K_LEFT]:
+        if keys[pygame.K_a]:
             self.player.speed_x = -2
-        if keys[pygame.K_RIGHT]:
+        if keys[pygame.K_d]:
             self.player.speed_x = 2
-        if keys[pygame.K_UP] and self.player.onGround:
+        if keys[pygame.K_w] and self.player.onGround:
             self.player.speed_y = -10
             self.player.onGround = False
         if keys[pygame.K_SPACE] and self.gun.charged:
