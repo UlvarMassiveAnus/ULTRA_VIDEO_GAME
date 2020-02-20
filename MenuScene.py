@@ -1,7 +1,7 @@
 import pygame
 
 
-class Menu:
+class MenuScene:
     def __init__(self, canvas, puncts_names):
         self.puncts = []
         self.puncts_names = puncts_names
@@ -17,6 +17,8 @@ class Menu:
                 pygame.draw.rect(self.canvas, pygame.Color('yellow'), punct.position, 0)
             else:
                 pygame.draw.rect(self.canvas, pygame.Color('red'), punct.position, 0)
+            self.canvas.blit(punct.text, (punct.x + punct.w // 2 - punct.text.get_width() // 2,
+                                          punct.y + punct.h // 2 - punct.text.get_height() // 2))
 
     def move(self):
         m_keys = pygame.mouse.get_pressed()
@@ -39,6 +41,7 @@ class MenuPunct:
         self.position = self.x, self.y, self.w, self.h = coords
         self.pname = pname
         self.state = False
+        self.text = self.menu_name()
 
     def hover(self, mouse_coords):
         pos = mouse_coords
@@ -47,3 +50,8 @@ class MenuPunct:
         else:
             self.state = False
         return self.state
+
+    def menu_name(self):
+        font = pygame.font.Font(None, 50)
+        text = font.render(self.pname.capitalize(), 1, (100, 255, 100))
+        return text

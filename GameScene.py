@@ -58,4 +58,4 @@ class Level:
                     self.level.append(Block(j * 25, i * 25, 25, 25))
 
         for elem in self.level:
-            pygame.draw.rect(self.level_canvas, (255, 255, 255), [elem.x, elem.y, elem.w, elem.h], 0)
+            pygame.draw.rect(self.level_canvas, (255, 0, 255), [elem.x, elem.y, elem.w, elem.h], 0)

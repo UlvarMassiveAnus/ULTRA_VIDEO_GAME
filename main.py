@@ -1,6 +1,6 @@
 import pygame
 from GameScene import GameScene
-from MenuScene import Menu
+from MenuScene import MenuScene
 
 pygame.init()
 size = width, height = 800, 600
@@ -33,12 +33,12 @@ l_map = [
     '________________________________'
 ]
 game = GameScene(l_map, screen)
-menu = Menu(screen, ['Play', 'Settings', 'Exit'])
+menu = MenuScene(screen, ['play', 'settings', 'exit'])
 current_scene = menu
 run = True
 
 while run:
-    pygame.time.delay(10)
+    pygame.time.delay(15)
     for i in pygame.event.get():
         if i.type == pygame.QUIT:
             run = False
@@ -46,7 +46,7 @@ while run:
     current_scene.render()
     nextScene = current_scene.move()
 
-    if nextScene == "Play":
+    if nextScene == "play":
         current_scene = game
     elif nextScene == "menu":
         current_scene = menu
