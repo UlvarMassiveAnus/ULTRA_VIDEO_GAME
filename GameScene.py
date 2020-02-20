@@ -1,6 +1,6 @@
 import pygame
 from player import Steve
-from my_platform import Block
+from my_platform import Block, Spikes
 from gun import Gun, Bullet
 
 
@@ -47,6 +47,7 @@ class Level:
     def __init__(self, l_map):
         self.map = l_map
         self.level = []
+        self.level_spikes = []
         self.level_canvas = pygame.Surface((800, 600))
         self.create_level()
 
@@ -56,6 +57,14 @@ class Level:
             for j in range(w):
                 if self.map[i][j] == "_":
                     self.level.append(Block(j * 25, i * 25, 25, 25))
+                elif self.map[i][j] == "@":
+                    self.level_spikes.append(Spikes(j * 25, i * 25, 25, 25))
+
+        self.level = self.level_spikes + self.level
 
         for elem in self.level:
-            pygame.draw.rect(self.level_canvas, (255, 0, 255), [elem.x, elem.y, elem.w, elem.h], 0)
+            if not elem.enemy:
+                color = (0, 0, 255)
+            else:
+                color = (255, 0, 0)
+            pygame.draw.rect(self.level_canvas, color, [elem.x, elem.y, elem.w, elem.h], 0)
