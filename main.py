@@ -30,7 +30,7 @@ l_map = [
     '_            @_                _',
     '_                  _@____      _',
     '_                              _',
-    '_                              _',
+    '_ !                            _',
     '________________________________'
 ]
 settings = SettingsScene(screen)
@@ -54,6 +54,8 @@ while run:
         current_scene = menu
     elif nextScene == "settings":
         current_scene = settings
+    elif nextScene == "exit":
+        run = False
 
     window.blit(screen, (0, 0))
     pygame.display.flip()

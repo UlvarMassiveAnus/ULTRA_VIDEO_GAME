@@ -10,7 +10,11 @@ class SettingsScene:
     def render(self):
         self.canvas.fill((100, 100, 0))
         self.back.hover(pygame.mouse.get_pos())
-        pygame.draw.rect(self.canvas, (255, 0, 0), [0, 500, 200, 100], 0)
+        if self.back.state:
+            color = (255, 255, 0)
+        else:
+            color = (255, 0, 0)
+        pygame.draw.rect(self.canvas, color, [0, 500, 200, 100], 0)
         self.canvas.blit(self.back.text, (self.back.x + self.back.w // 2 - self.back.text.get_width() // 2,
                                           self.back.y + self.back.h // 2 - self.back.text.get_height() // 2))
 

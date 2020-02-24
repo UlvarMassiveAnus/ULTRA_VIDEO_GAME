@@ -8,7 +8,7 @@ class GameScene:
     def __init__(self, l_map, canvas):
         self.canvas = canvas
         self.level = Level(l_map)
-        self.player = Steve()
+        self.player = Steve(self.level.steve_spawn[1], self.level.steve_spawn[0])
         self.gun = Gun()
 
     def render(self):
@@ -48,6 +48,7 @@ class Level:
         self.map = l_map
         self.level = []
         self.level_spikes = []
+        self.steve_spawn = None
         self.level_canvas = pygame.Surface((800, 600))
         self.create_level()
 
@@ -59,6 +60,8 @@ class Level:
                     self.level.append(Block(j * 25, i * 25, 25, 25))
                 elif self.map[i][j] == "@":
                     self.level_spikes.append(Spikes(j * 25, i * 25, 25, 25))
+                elif self.map[i][j] == "!":
+                    self.steve_spawn = (i * 25 + 1, j * 25 + 1)
 
         self.level = self.level_spikes + self.level
 
