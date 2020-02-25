@@ -22,19 +22,18 @@ l_map = [
     '_         _@_____              _',
     '_                              _',
     '_                              _',
-    '_                              _',
+    '_                e             _',
     '_               _____@__       _',
     '_                              _',
     '_     ____@                    _',
     '_                              _',
-    '_            @_                _',
+    '_          __@_                _',
     '_                  _@____      _',
     '_                              _',
     '_ !                            _',
     '________________________________'
 ]
 settings = SettingsScene(screen)
-game = GameScene(l_map, screen)
 menu = MenuScene(screen, ['play', 'settings', 'exit'])
 current_scene = menu
 run = True
@@ -49,6 +48,7 @@ while run:
     nextScene = current_scene.move()
 
     if nextScene == "play":
+        game = GameScene(l_map, screen)
         current_scene = game
     elif nextScene == "menu":
         current_scene = menu

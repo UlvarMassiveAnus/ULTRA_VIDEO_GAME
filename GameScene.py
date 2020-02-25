@@ -1,5 +1,6 @@
 import pygame
 from player import Steve
+from my_platform import Enemy
 from my_platform import Block, Spikes
 from gun import Gun, Bullet
 
@@ -35,7 +36,10 @@ class GameScene:
         self.player.speed_x = 0
 
         self.gun.recharge()
-        self.gun.render(self.level.level, self.canvas)
+        self.gun.render(self.level.level, self.level.enemies, self.canvas)
+
+        for enemy in self.level.enemies:
+            pygame.draw.rect(self.canvas, (255, 0, 255), [enemy.x, enemy.y, enemy.w, enemy.h], 0)
 
     def move(self):
         keys = pygame.key.get_pressed()
@@ -50,6 +54,7 @@ class Level:
         self.level_spikes = []
         self.steve_spawn = None
         self.level_canvas = pygame.Surface((800, 600))
+        self.enemies = []
         self.create_level()
 
     def create_level(self):
@@ -62,12 +67,15 @@ class Level:
                     self.level_spikes.append(Spikes(j * 25, i * 25, 25, 25))
                 elif self.map[i][j] == "!":
                     self.steve_spawn = (i * 25 + 1, j * 25 + 1)
+                elif self.map[i][j] == "e":
+                    self.enemies.append(Enemy(j * 25, i * 25, 25, 25))
 
         self.level = self.level_spikes + self.level
 
         for elem in self.level:
-            if not elem.enemy:
-                color = (0, 0, 255)
-            else:
+            color = (0, 0, 0)
+            if elem.type == "spike":
                 color = (255, 0, 0)
+            elif elem.type == "block":
+                color = (0, 0, 255)
             pygame.draw.rect(self.level_canvas, color, [elem.x, elem.y, elem.w, elem.h], 0)
