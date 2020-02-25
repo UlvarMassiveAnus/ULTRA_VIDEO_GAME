@@ -30,6 +30,7 @@ class Gun:
                     self.cage.pop(self.cage.index(bullet))
                     if block.type == "enemy":
                         block.taking_damage()
+                        print(block.health)
                         if block.health <= 0:
                             enemies.pop(enemies.index(block))
 

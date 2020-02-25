@@ -49,13 +49,3 @@ class Steve:
 
     def render(self, surface):
         pygame.draw.rect(surface, pygame.Color('gray'), [self.x, self.y, self.w, self.h], 0)
-
-
-class Enemy:
-    def __init__(self, x, y, w, h):
-        self.x, self.y, self.w, self.h = x, y, w, h
-        self.health = 100
-        self.type = "enemy"
-
-    def taking_damage(self):
-        self.health -= 25

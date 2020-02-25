@@ -18,10 +18,11 @@ class Spikes(Block):
     def damage(self):
         pass
 
+
 class Enemy(Block):
     def __init__(self, x, y, w, h):
         super().__init__(x, y, w, h)
-        self.health = 100
+        self.health = 25
         self.type = "enemy"
 
     def taking_damage(self):
