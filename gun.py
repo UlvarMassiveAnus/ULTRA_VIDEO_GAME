@@ -4,8 +4,8 @@ import pygame
 class Bullet:
     def __init__(self, x, y):
         self.x, self.y = x, y
-        self.w = 30
-        self.h = 2
+        self.w = 5
+        self.h = 5
         self.speed = 0
 
     def launch(self, vect):
@@ -16,10 +16,11 @@ class Bullet:
 
 
 class Gun:
-    def __init__(self):
+    def __init__(self, enForThis):
         self.cage = []
         self.charged = True
         self.start_recharge = 0
+        self.enForThis = enForThis
 
     def render(self, level, enemies, canvas):
         for block in level + enemies:
@@ -28,11 +29,12 @@ class Gun:
                 pygame.draw.rect(canvas, (255, 255, 0), [bullet.x, bullet.y, bullet.w, bullet.h], 0)
                 if all(block.collision(bullet)):
                     self.cage.pop(self.cage.index(bullet))
-                    if block.type == "enemy":
+                    if block.type == "enemy" and self.enForThis == "enemy":
                         block.taking_damage()
-                        print(block.health)
                         if block.health <= 0:
                             enemies.pop(enemies.index(block))
+                    elif block.type == "steve" and self.enForThis == "steve":
+                        block.taking_damage()
 
     def recharge(self):
         if pygame.time.get_ticks() - self.start_recharge > 500:

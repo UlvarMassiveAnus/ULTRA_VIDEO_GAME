@@ -10,7 +10,7 @@ class GameScene:
         self.canvas = canvas
         self.level = Level(l_map)
         self.player = Steve(self.level.steve_spawn[1], self.level.steve_spawn[0])
-        self.gun = Gun()
+        self.gun = Gun("enemy")
 
     def render(self):
         keys = pygame.key.get_pressed()
@@ -31,7 +31,7 @@ class GameScene:
 
         self.canvas.blit(self.level.level_canvas, (0, 0))
 
-        self.player.update(self.level.level)
+        self.player.update(self.level.level + self.level.enemies)
         self.player.render(self.canvas)
         self.player.speed_x = 0
 
@@ -39,7 +39,7 @@ class GameScene:
         self.gun.render(self.level.level, self.level.enemies, self.canvas)
 
         for enemy in self.level.enemies:
-            pygame.draw.rect(self.canvas, (255, 0, 255), [enemy.x, enemy.y, enemy.w, enemy.h], 0)
+            enemy.render(self.level.level, self.player, self.canvas)
 
     def move(self):
         keys = pygame.key.get_pressed()

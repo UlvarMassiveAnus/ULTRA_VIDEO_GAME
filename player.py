@@ -10,6 +10,8 @@ class Steve:
         self.speed_x, self.speed_y = 0, 0
         self.onGround = False
         self.vector = 1
+        self.health = 100
+        self.type = "steve"
 
     def update(self, level):
         self.speed_y += 0.3  # is gravity
@@ -27,7 +29,7 @@ class Steve:
             collision = block.collision(self)
             if collision[0] and collision[1]:
                 if block.type == "spike" and all(Block(block.x, block.y - 5, block.w, block.h - 20).collision(self)):
-                    self.respawn((self.spawn_x, self.spawn_y))
+                    self.respawn()
                     break
                 if all(Block(block.x + 3, block.y, block.w - 6, block.h - 20).collision(self)):
                     self.onGround = True
@@ -44,8 +46,19 @@ class Steve:
                         self.speed_y = 0
                         self.y = block.y + block.h + 1
 
-    def respawn(self, pos):
-        self.x, self.y = pos[0], pos[1]
+    def respawn(self):
+        self.x, self.y = self.spawn_x, self.spawn_y
+        self.health = 100
 
     def render(self, surface):
         pygame.draw.rect(surface, pygame.Color('gray'), [self.x, self.y, self.w, self.h], 0)
+
+    def collision(self, other):
+        x_collision = (self.w + other.w) >= max(abs(other.x + other.w - self.x), abs(self.x + self.w - other.x))
+        y_collision = (self.h + other.h) >= max(abs(other.y + other.h - self.y), abs(self.y + self.h - other.y))
+        return x_collision, y_collision
+
+    def taking_damage(self):
+        self.health -= 25
+        if self.health <= 0:
+            self.respawn()
