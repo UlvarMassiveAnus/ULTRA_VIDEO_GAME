@@ -61,4 +61,3 @@ while run:
     pygame.display.flip()
 
 pygame.quit()
-print(1)
