@@ -1,5 +1,6 @@
 import pygame
 from my_platform import Block
+from gun import Gun, Bullet
 
 
 class Steve:
@@ -12,6 +13,7 @@ class Steve:
         self.vector = 1
         self.health = 100
         self.type = "steve"
+        self.gun = Gun("enemy")
 
     def update(self, level):
         self.speed_y += 0.3  # is gravity
@@ -26,12 +28,12 @@ class Steve:
 
     def move(self, level, k):
         for block in level:
-            collision = block.collision(self)
+            collision = self.collision(block)
             if collision[0] and collision[1]:
-                if block.type == "spike" and all(Block(block.x, block.y - 5, block.w, block.h - 20).collision(self)):
+                if block.type == "spike" and all(self.collision(Block(block.x, block.y - 5, block.w, block.h - 20))):
                     self.respawn()
                     break
-                if all(Block(block.x + 3, block.y, block.w - 6, block.h - 20).collision(self)):
+                if all(self.collision(Block(block.x + 3, block.y, block.w - 6, block.h - 20))):
                     self.onGround = True
                 if k:
                     if self.speed_x > 0:
@@ -62,3 +64,40 @@ class Steve:
         self.health -= 25
         if self.health <= 0:
             self.respawn()
+
+    def shoot(self):
+        self.gun.charged = False
+        b = Bullet(self.x, self.y)
+        b.launch(self.vector)
+        self.gun.cage.append(b)
+        self.gun.start_recharge = pygame.time.get_ticks()
+
+
+class Enemy:
+    def __init__(self, x, y, w, h):
+        self.x, self.y, self.w, self.h = x, y, w, h
+        self.health = 25
+        self.type = "enemy"
+        self.gun = Gun("steve")
+
+    def taking_damage(self):
+        self.health -= 25
+
+    def shoot(self, player):
+        if self.collision(player)[1] and self.gun.charged:
+            self.gun.charged = False
+            b = Bullet(self.x, self.y)
+            b.launch((player.x - self.x) / abs(player.x - self.x))
+            self.gun.cage.append(b)
+            self.gun.start_recharge = pygame.time.get_ticks()
+
+    def render(self, level, player, canvas):
+        self.shoot(player)
+        self.gun.recharge()
+        self.gun.render(level, [player], canvas)
+        pygame.draw.rect(canvas, (255, 0, 255), [self.x, self.y, self.w, self.h], 0)
+
+    def collision(self, other):
+        x_collision = (self.w + other.w) >= max(abs(other.x + other.w - self.x), abs(self.x + self.w - other.x))
+        y_collision = (self.h + other.h) >= max(abs(other.y + other.h - self.y), abs(self.y + self.h - other.y))
+        return x_collision, y_collision

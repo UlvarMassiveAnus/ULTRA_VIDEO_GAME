@@ -1,6 +1,5 @@
 import pygame
-from player import Steve
-from my_platform import Enemy
+from player import Steve, Enemy
 from my_platform import Block, Spikes
 from gun import Gun, Bullet
 
@@ -10,24 +9,19 @@ class GameScene:
         self.canvas = canvas
         self.level = Level(l_map)
         self.player = Steve(self.level.steve_spawn[1], self.level.steve_spawn[0])
-        self.gun = Gun("enemy")
 
     def render(self):
         keys = pygame.key.get_pressed()
         self.canvas.fill((0, 0, 0))
         if keys[pygame.K_a]:
-            self.player.speed_x = -2
+            self.player.speed_x = -1.5
         if keys[pygame.K_d]:
-            self.player.speed_x = 2
+            self.player.speed_x = 1.5
         if keys[pygame.K_w] and self.player.onGround:
             self.player.speed_y = -10
             self.player.onGround = False
-        if keys[pygame.K_SPACE] and self.gun.charged:
-            self.gun.charged = False
-            b = Bullet(self.player.x, self.player.y)
-            b.launch(self.player.vector)
-            self.gun.cage.append(b)
-            self.gun.start_recharge = pygame.time.get_ticks()
+        if keys[pygame.K_SPACE] and self.player.gun.charged:
+            self.player.shoot()
 
         self.canvas.blit(self.level.level_canvas, (0, 0))
 
@@ -35,8 +29,8 @@ class GameScene:
         self.player.render(self.canvas)
         self.player.speed_x = 0
 
-        self.gun.recharge()
-        self.gun.render(self.level.level, self.level.enemies, self.canvas)
+        self.player.gun.recharge()
+        self.player.gun.render(self.level.level, self.level.enemies, self.canvas)
 
         for enemy in self.level.enemies:
             enemy.render(self.level.level, self.player, self.canvas)

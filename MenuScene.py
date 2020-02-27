@@ -45,7 +45,7 @@ class MenuPunct:
 
     def hover(self, mouse_coords):
         pos = mouse_coords
-        if pos[0] < self.x + self.w and pos[0] > self.x and pos[1] < self.y + self.h and pos[1] > self.y:
+        if all([pos[0] < self.x + self.w, pos[0] > self.x, pos[1] < self.y + self.h, pos[1] > self.y]):
             self.state = True
         else:
             self.state = False

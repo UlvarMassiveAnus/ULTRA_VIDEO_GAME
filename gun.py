@@ -14,6 +14,11 @@ class Bullet:
     def move(self):
         self.x += self.speed
 
+    def collision(self, other):
+        x_collision = (self.w + other.w) >= max(abs(other.x + other.w - self.x), abs(self.x + self.w - other.x))
+        y_collision = (self.h + other.h) >= max(abs(other.y + other.h - self.y), abs(self.y + self.h - other.y))
+        return x_collision, y_collision
+
 
 class Gun:
     def __init__(self, enForThis):
@@ -27,7 +32,7 @@ class Gun:
             for bullet in self.cage:
                 bullet.move()
                 pygame.draw.rect(canvas, (255, 255, 0), [bullet.x, bullet.y, bullet.w, bullet.h], 0)
-                if all(block.collision(bullet)):
+                if all(bullet.collision(block)):
                     self.cage.pop(self.cage.index(bullet))
                     if block.type == "enemy" and self.enForThis == "enemy":
                         block.taking_damage()

@@ -22,12 +22,12 @@ l_map = [
     '_                              _',
     '_                              _',
     '_                              _',
-    '_                      e       _',
-    '_      __        _______       _',
+    '_                e     e       _',
+    '_   _____        _______       _',
     '_                              _',
     '_                              _',
     '_       e                      _',
-    '_      __                      _',
+    '_      ____                    _',
     '_                              _',
     '_                              _',
     '_ !                            _',
@@ -39,7 +39,7 @@ current_scene = menu
 run = True
 
 while run:
-    pygame.time.delay(15)
+    pygame.time.delay(10)
     for i in pygame.event.get():
         if i.type == pygame.QUIT:
             run = False
