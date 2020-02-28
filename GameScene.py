@@ -1,7 +1,6 @@
 import pygame
 from player import Steve, Enemy
 from my_platform import Block, Spikes
-from gun import Gun, Bullet
 
 
 class GameScene:

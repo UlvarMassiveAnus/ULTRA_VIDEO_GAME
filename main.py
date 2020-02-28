@@ -2,7 +2,7 @@ import pygame
 from GameScene import GameScene
 from MenuScene import MenuScene
 from SettingsScene import SettingsScene
-print(1)
+
 pygame.init()
 size = width, height = 800, 600
 window = pygame.display.set_mode(size)
