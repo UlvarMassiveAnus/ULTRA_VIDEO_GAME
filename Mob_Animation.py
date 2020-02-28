@@ -7,23 +7,23 @@ class AnimatedSprite:
         self.sheet_list = sheet_list
         self.frames = []
         self.size = size
-        self.cur_anim = None
-        self.cur_anim_len = None
-        self.cur_frame = None
-        self.start_anim = 0
         self.frames_creator()
+        self.cur_anim = 0
+        self.cur_anim_len = 1
+        self.cur_frame = self.frames[self.cur_anim][0]
+        self.secs_anim = 0
 
     def start(self, start_anim):
-        self.start_anim = pygame.time.get_ticks()
+        self.secs_anim = pygame.time.get_ticks()
         self.cur_anim = start_anim
         self.cur_anim_len = len(self.frames[start_anim])
 
     def next(self):
         self.cur_frame = self.frames[self.cur_anim][
-            ((pygame.time.get_ticks() - self.start_anim) // 200) % self.cur_anim_len]
+            ((pygame.time.get_ticks() - self.secs_anim) // 250) % self.cur_anim_len]
 
-    def load_image(self, name, color_key=-1):
-        fullname = os.path.join('data', name)
+    def load_image(self, name, dir, color_key=None):
+        fullname = os.path.join('data', dir, name)
         try:
             image = pygame.image.load(fullname).convert()
         except pygame.error as message:
@@ -43,10 +43,7 @@ class AnimatedSprite:
     def frames_creator(self):
         simple_anim = []
         for dir in self.sheet_list:
-            for file_name in os.listdir("/data/" + dir):
-                simple_anim.append(self.load_image(file_name))
+            for file_name in os.listdir("data/" + dir):
+                simple_anim.append(self.load_image(file_name, dir))
             self.frames.append(simple_anim)
             simple_anim = []
-
-
-enemy = AnimatedSprite(["enemy_waiting_sheets", "enemy_shooting_sheets"], (100, 100))

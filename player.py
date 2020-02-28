@@ -1,6 +1,7 @@
 import pygame
 from my_platform import Block
 from gun import Gun, Bullet
+from Mob_Animation import AnimatedSprite
 
 
 class Steve:
@@ -13,7 +14,7 @@ class Steve:
         self.vector = 1
         self.health = 100
         self.type = "steve"
-        self.gun = Gun("enemy")
+        self.gun = Gun("enemy", 500)
 
     def update(self, level):
         self.speed_y += 0.3  # is gravity
@@ -78,24 +79,29 @@ class Enemy:
         self.x, self.y, self.w, self.h = x, y, w, h
         self.health = 25
         self.type = "enemy"
-        self.gun = Gun("steve")
+        self.gun = Gun("steve", 1000)
+        self.animation = AnimatedSprite(["enemy_waiting_sheets", "enemy_shooting_sheets"], (self.w, self.h))
 
     def taking_damage(self):
         self.health -= 25
 
     def shoot(self, player):
         if self.collision(player)[1] and self.gun.charged:
+            self.animation.start(1)
             self.gun.charged = False
             b = Bullet(self.x, self.y)
             b.launch((player.x - self.x) / abs(player.x - self.x))
             self.gun.cage.append(b)
             self.gun.start_recharge = pygame.time.get_ticks()
+        elif not self.collision(player)[1]:
+            self.animation.start(0)
 
     def render(self, level, player, canvas):
         self.shoot(player)
+        self.animation.next()
         self.gun.recharge()
         self.gun.render(level, [player], canvas)
-        pygame.draw.rect(canvas, (255, 0, 255), [self.x, self.y, self.w, self.h], 0)
+        canvas.blit(self.animation.cur_frame, (self.x, self.y))
 
     def collision(self, other):
         x_collision = (self.w + other.w) >= max(abs(other.x + other.w - self.x), abs(self.x + self.w - other.x))

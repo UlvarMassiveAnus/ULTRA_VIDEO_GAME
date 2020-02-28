@@ -21,11 +21,12 @@ class Bullet:
 
 
 class Gun:
-    def __init__(self, enForThis):
+    def __init__(self, enForThis, recharge_time):
         self.cage = []
         self.charged = True
         self.start_recharge = 0
         self.enForThis = enForThis
+        self.recharge_time = recharge_time
 
     def render(self, level, enemies, canvas):
         for block in level + enemies:
@@ -42,5 +43,5 @@ class Gun:
                         block.taking_damage()
 
     def recharge(self):
-        if pygame.time.get_ticks() - self.start_recharge > 500:
+        if pygame.time.get_ticks() - self.start_recharge > self.recharge_time:
             self.charged = True
