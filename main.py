@@ -1,40 +1,22 @@
 import pygame
-from GameScene import GameScene
+from GameScene import GameScene, Level
 from MenuScene import MenuScene
+from LevelScene import LevelScene
 from SettingsScene import SettingsScene
 
 pygame.init()
 size = width, height = 800, 600
 window = pygame.display.set_mode(size)
 screen = pygame.Surface(size)
-l_map = [
-    '________________________________',
-    '_                              _',
-    '_                              _',
-    '_                              _',
-    '_                              _',
-    '_      __                      _',
-    '_                     e        _',
-    '_                     __       _',
-    '_                              _',
-    '_       e                      _',
-    '_       ______                 _',
-    '_                              _',
-    '_                              _',
-    '_                              _',
-    '_    e       !         e       _',
-    '_   _____        _______       _',
-    '_                              _',
-    '_                              _',
-    '_       e                      _',
-    '_      ____                    _',
-    '_                              _',
-    '_                              _',
-    '_                              _',
-    '________________________________'
-]
+levels = []
+for i in range(3):
+    with open(f"levels/level_{i + 1}.txt") as file:
+        rows = list(map(lambda x: x[:32], file.readlines()))
+    levels.append(rows)
+
 settings = SettingsScene(screen)
 menu = MenuScene(screen, ['play', 'settings', 'exit'])
+level_menu = LevelScene(screen, ["level 1", "level 2", "level 3"])
 current_scene = menu
 run = True
 
@@ -48,7 +30,15 @@ while run:
     nextScene = current_scene.move()
 
     if nextScene == "play":
-        game = GameScene(l_map, screen)
+        current_scene = level_menu
+    elif nextScene == "level 1":
+        game = GameScene(levels[0], "1", screen)
+        current_scene = game
+    elif nextScene == "level 2":
+        game = GameScene(levels[1], "2", screen)
+        current_scene = game
+    elif nextScene == "level 3":
+        game = GameScene(levels[2], "3", screen)
         current_scene = game
     elif nextScene == "menu":
         current_scene = menu

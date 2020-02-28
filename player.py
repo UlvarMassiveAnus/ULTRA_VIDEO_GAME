@@ -86,7 +86,7 @@ class Enemy:
         self.health -= 25
 
     def shoot(self, player):
-        if self.collision(player)[1] and self.gun.charged and self.animation.cur_anim != 1:
+        if self.collision(player)[1] and self.gun.charged:
             self.animation.start(1)
             self.gun.charged = False
             b = Bullet(self.x, self.y)

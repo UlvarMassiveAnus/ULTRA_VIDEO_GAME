@@ -4,9 +4,9 @@ from my_platform import Block, Spikes
 
 
 class GameScene:
-    def __init__(self, l_map, canvas):
+    def __init__(self, l_map, name, canvas):
         self.canvas = canvas
-        self.level = Level(l_map)
+        self.level = Level(l_map, name)
         self.player = Steve(self.level.steve_spawn[1], self.level.steve_spawn[0])
 
     def render(self):
@@ -38,10 +38,13 @@ class GameScene:
         keys = pygame.key.get_pressed()
         if keys[pygame.K_BACKSPACE]:
             return "menu"
+        elif keys[pygame.K_r]:
+            return f"level {self.level.name}"
 
 
 class Level:
-    def __init__(self, l_map):
+    def __init__(self, l_map, name):
+        self.name = name
         self.map = l_map
         self.level = []
         self.level_spikes = []

@@ -1,7 +1,8 @@
 import pygame
+from MenuScene import MenuPunct
 
 
-class MenuScene:
+class LevelScene:
     def __init__(self, canvas, puncts_names):
         self.puncts = []
         self.puncts_names = puncts_names
@@ -22,10 +23,13 @@ class MenuScene:
 
     def move(self):
         m_keys = pygame.mouse.get_pressed()
-        if m_keys[2]:
+        keys = pygame.key.get_pressed()
+        if m_keys[0]:
             for p in self.puncts:
                 if p.state:
                     return p.pname
+        if keys[pygame.K_BACKSPACE]:
+            return "menu"
 
     def create_menu(self):
         w, h = self.canvas.get_width(), self.canvas.get_height()
@@ -34,24 +38,3 @@ class MenuScene:
             coords = w // 2 - width // 2, height + 150 * i + 50, width, height
             p = MenuPunct(coords, elem)
             self.puncts.append(p)
-
-
-class MenuPunct:
-    def __init__(self, coords, pname):
-        self.position = self.x, self.y, self.w, self.h = coords
-        self.pname = pname
-        self.state = False
-        self.text = self.menu_name()
-
-    def hover(self, mouse_coords):
-        pos = mouse_coords
-        if all([pos[0] < self.x + self.w, pos[0] > self.x, pos[1] < self.y + self.h, pos[1] > self.y]):
-            self.state = True
-        else:
-            self.state = False
-        return self.state
-
-    def menu_name(self):
-        font = pygame.font.Font(None, 50)
-        text = font.render(self.pname.capitalize(), 1, (100, 255, 100))
-        return text
