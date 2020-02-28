@@ -9,7 +9,7 @@ class AnimatedSprite:
         self.size = size
         self.frames_creator()
         self.cur_anim = 0
-        self.cur_anim_len = 1
+        self.cur_anim_len = 2
         self.cur_frame = self.frames[self.cur_anim][0]
         self.secs_anim = 0
 

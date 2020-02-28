@@ -86,14 +86,14 @@ class Enemy:
         self.health -= 25
 
     def shoot(self, player):
-        if self.collision(player)[1] and self.gun.charged:
+        if self.collision(player)[1] and self.gun.charged and self.animation.cur_anim != 1:
             self.animation.start(1)
             self.gun.charged = False
             b = Bullet(self.x, self.y)
             b.launch((player.x - self.x) / abs(player.x - self.x))
             self.gun.cage.append(b)
             self.gun.start_recharge = pygame.time.get_ticks()
-        elif not self.collision(player)[1]:
+        elif not self.collision(player)[1] and self.animation.cur_anim != 0:
             self.animation.start(0)
 
     def render(self, level, player, canvas):
