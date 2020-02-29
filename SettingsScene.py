@@ -5,7 +5,7 @@ from MenuScene import MenuPunct
 class SettingsScene:
     def __init__(self, canvas):
         self.canvas = canvas
-        self.back = MenuPunct((0, 500, 200, 100), "Назад")
+        self.back = MenuPunct((0, 525, 120, 75), "Назад")
 
     def render(self):
         self.canvas.fill((100, 100, 0))
@@ -14,7 +14,7 @@ class SettingsScene:
             color = (255, 255, 0)
         else:
             color = (255, 0, 0)
-        pygame.draw.rect(self.canvas, color, [0, 500, 200, 100], 0)
+        pygame.draw.rect(self.canvas, color, [0, 525, 120, 75], 0)
         self.canvas.blit(self.back.text, (self.back.x + self.back.w // 2 - self.back.text.get_width() // 2,
                                           self.back.y + self.back.h // 2 - self.back.text.get_height() // 2))
 

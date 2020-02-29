@@ -1,6 +1,7 @@
 import pygame
 from player import Steve, Enemy
 from my_platform import Block, Spikes
+import os
 
 
 class GameScene:
@@ -11,7 +12,6 @@ class GameScene:
 
     def render(self):
         keys = pygame.key.get_pressed()
-        self.canvas.fill((0, 0, 0))
         if keys[pygame.K_a]:
             self.player.speed_x = -1.5
         if keys[pygame.K_d]:
@@ -48,9 +48,10 @@ class GameScene:
 class Level:
     def __init__(self, l_map, name):
         self.spike_image = pygame.Surface((25, 25))
-        self.block_image = pygame.Surface((25, 25))
+        self.block_image = pygame.transform.scale(pygame.image.load(os.path.join("data", "blocks", "block.png")), (25, 25))
         self.spike_image.fill(pygame.Color("red"))
-        self.block_image.fill(pygame.Color("yellow"))
+
+        # self.block_image.fill(pygame.Color("yellow"))
         self.name = name
         self.map = l_map
         self.level = []

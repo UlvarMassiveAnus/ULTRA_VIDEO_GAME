@@ -83,28 +83,41 @@ class Enemy:
         self.health = 25
         self.type = "enemy"
         self.gun = Gun("steve", 1000)
-        self.animation = AnimatedSprite(["enemy_waiting_sheets", "enemy_shooting_sheets"], (2 * self.w, self.h))
+        self.animation = AnimatedSprite(["enemy_waiting_sheets", "enemy_shooting_sheets"], (self.w * 2, self.h))
 
     def taking_damage(self):
         self.health -= 25
 
     def shoot(self, player):
+        if player.x != self.x:
+            enemy_vector = (player.x - self.x) / abs(player.x - self.x)
+        else:
+            enemy_vector = 1
         if self.collision(player)[1] and self.gun.charged:
-            self.animation.start(1)
+            if enemy_vector == 1:
+                self.animation.start(1)
+            elif enemy_vector == -1:
+                self.animation.start(1)
             self.gun.charged = False
             b = Bullet(self.x, self.y)
-            b.launch((player.x - self.x) / abs(player.x - self.x))
+            b.launch(enemy_vector)
             self.gun.cage.append(b)
             self.gun.start_recharge = pygame.time.get_ticks()
         elif not self.collision(player)[1] and self.animation.cur_anim != 0:
-            self.animation.start(0)
+            if enemy_vector == 1:
+                self.animation.start(0)
+            elif enemy_vector == -1:
+                self.animation.start(0)
 
     def render(self, level, player, canvas):
         self.shoot(player)
         self.animation.next()
         self.gun.recharge()
         self.gun.render(level, [player], canvas)
-        canvas.blit(self.animation.cur_frame, (self.x, self.y))
+        if self.animation.cur_anim == 1:
+            canvas.blit(self.animation.cur_frame, (self.x - (self.animation.cur_frame.get_width() - self.w), self.y))
+        else:
+            canvas.blit(self.animation.cur_frame, (self.x, self.y))
 
     def collision(self, other):
         x_collision = (self.w + other.w) >= max(abs(other.x + other.w - self.x), abs(self.x + self.w - other.x))
