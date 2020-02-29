@@ -23,3 +23,4 @@ class SettingsScene:
         m_keys = pygame.mouse.get_pressed()
         if keys[pygame.K_BACKSPACE] or m_keys[0] and self.back.state:
             return "menu"
+        return ""

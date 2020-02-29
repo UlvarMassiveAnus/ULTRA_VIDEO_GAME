@@ -36,14 +36,21 @@ class GameScene:
 
     def move(self):
         keys = pygame.key.get_pressed()
-        if keys[pygame.K_BACKSPACE]:
+        if len(self.level.enemies) == 0:
+            return  f"win_{self.player.deaths}_{pygame.time.get_ticks() - self.player.live}"
+        elif keys[pygame.K_BACKSPACE]:
             return "play"
         elif keys[pygame.K_r]:
             return self.level.name
+        return ""
 
 
 class Level:
     def __init__(self, l_map, name):
+        self.spike_image = pygame.Surface((25, 25))
+        self.block_image = pygame.Surface((25, 25))
+        self.spike_image.fill(pygame.Color("red"))
+        self.block_image.fill(pygame.Color("yellow"))
         self.name = name
         self.map = l_map
         self.level = []
@@ -69,9 +76,7 @@ class Level:
         self.level = self.level_spikes + self.level
 
         for elem in self.level:
-            color = (0, 0, 0)
             if elem.type == "spike":
-                color = (255, 0, 0)
+                self.level_canvas.blit(self.spike_image, (elem.x, elem.y))
             elif elem.type == "block":
-                color = (0, 0, 255)
-            pygame.draw.rect(self.level_canvas, color, [elem.x, elem.y, elem.w, elem.h], 0)
+                self.level_canvas.blit(self.block_image, (elem.x, elem.y))

@@ -1,8 +1,9 @@
 import pygame
-from GameScene import GameScene, Level
+from GameScene import GameScene
 from MenuScene import MenuScene
 from LevelScene import LevelScene
 from SettingsScene import SettingsScene
+from WinScene import WinScene
 
 pygame.init()
 size = width, height = 800, 600
@@ -27,25 +28,28 @@ while run:
             run = False
 
     current_scene.render()
-    nextScene = current_scene.move()
+    nextScene = current_scene.move().split("_")
 
-    if nextScene == "play":
+    if nextScene[0] == "play":
         current_scene = level_menu
-    elif nextScene == "1":
+    elif nextScene[0] == "1":
         game = GameScene(levels[0], "1", screen)
         current_scene = game
-    elif nextScene == "2":
+    elif nextScene[0] == "2":
         game = GameScene(levels[1], "2", screen)
         current_scene = game
-    elif nextScene == "3":
+    elif nextScene[0] == "3":
         game = GameScene(levels[2], "3", screen)
         current_scene = game
-    elif nextScene == "menu":
+    elif nextScene[0] == "menu":
         current_scene = menu
-    elif nextScene == "settings":
+    elif nextScene[0] == "settings":
         current_scene = settings
-    elif nextScene == "exit":
+    elif nextScene[0] == "exit":
         run = False
+    elif nextScene[0] == "win":
+        win = WinScene(screen, nextScene[2], nextScene[1])
+        current_scene = win
 
     window.blit(screen, (0, 0))
     pygame.display.flip()

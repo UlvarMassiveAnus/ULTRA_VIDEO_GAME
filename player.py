@@ -15,6 +15,8 @@ class Steve:
         self.health = 100
         self.type = "steve"
         self.gun = Gun("enemy", 500)
+        self.live = pygame.time.get_ticks()
+        self.deaths = 0
 
     def update(self, level):
         self.speed_y += 0.3  # is gravity
@@ -52,6 +54,7 @@ class Steve:
     def respawn(self):
         self.x, self.y = self.spawn_x, self.spawn_y
         self.health = 100
+        self.deaths += 1
 
     def render(self, surface):
         pygame.draw.rect(surface, pygame.Color('gray'), [self.x, self.y, self.w, self.h], 0)
@@ -80,7 +83,7 @@ class Enemy:
         self.health = 25
         self.type = "enemy"
         self.gun = Gun("steve", 1000)
-        self.animation = AnimatedSprite(["enemy_waiting_sheets", "enemy_shooting_sheets"], (self.w, self.h))
+        self.animation = AnimatedSprite(["enemy_waiting_sheets", "enemy_shooting_sheets"], (2 * self.w, self.h))
 
     def taking_damage(self):
         self.health -= 25

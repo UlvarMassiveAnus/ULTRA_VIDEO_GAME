@@ -26,6 +26,7 @@ class MenuScene:
             for p in self.puncts:
                 if p.state:
                     return p.pname
+        return ""
 
     def create_menu(self):
         w, h = self.canvas.get_width(), self.canvas.get_height()

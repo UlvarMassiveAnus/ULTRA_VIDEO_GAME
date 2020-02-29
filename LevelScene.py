@@ -30,6 +30,7 @@ class LevelScene:
                     return "menu"
                 if p.state:
                     return p.pname
+        return ""
 
     def create_menu(self):
         width, height = 100, 100
