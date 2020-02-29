@@ -16,7 +16,7 @@ for i in range(3):
 
 settings = SettingsScene(screen)
 menu = MenuScene(screen, ['play', 'settings', 'exit'])
-level_menu = LevelScene(screen, ["level 1", "level 2", "level 3"])
+level_menu = LevelScene(screen, ["1", "2", "3"])
 current_scene = menu
 run = True
 
@@ -31,13 +31,13 @@ while run:
 
     if nextScene == "play":
         current_scene = level_menu
-    elif nextScene == "level 1":
+    elif nextScene == "1":
         game = GameScene(levels[0], "1", screen)
         current_scene = game
-    elif nextScene == "level 2":
+    elif nextScene == "2":
         game = GameScene(levels[1], "2", screen)
         current_scene = game
-    elif nextScene == "level 3":
+    elif nextScene == "3":
         game = GameScene(levels[2], "3", screen)
         current_scene = game
     elif nextScene == "menu":

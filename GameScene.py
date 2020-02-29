@@ -37,9 +37,9 @@ class GameScene:
     def move(self):
         keys = pygame.key.get_pressed()
         if keys[pygame.K_BACKSPACE]:
-            return "menu"
+            return "play"
         elif keys[pygame.K_r]:
-            return f"level {self.level.name}"
+            return self.level.name
 
 
 class Level:

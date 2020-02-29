@@ -23,18 +23,18 @@ class LevelScene:
 
     def move(self):
         m_keys = pygame.mouse.get_pressed()
-        keys = pygame.key.get_pressed()
+        # keys = pygame.key.get_pressed()
         if m_keys[0]:
             for p in self.puncts:
+                if p.pname == "назад" and p.state:
+                    return "menu"
                 if p.state:
                     return p.pname
-        if keys[pygame.K_BACKSPACE]:
-            return "menu"
 
     def create_menu(self):
-        w, h = self.canvas.get_width(), self.canvas.get_height()
-        width, height = 400, 100
+        width, height = 100, 100
         for i, elem in enumerate(self.puncts_names):
-            coords = w // 2 - width // 2, height + 150 * i + 50, width, height
+            coords = width * i + 20 * (i + 1), 20, width, height
             p = MenuPunct(coords, elem)
             self.puncts.append(p)
+        self.puncts.append(MenuPunct((0, 525, 120, 75), "назад"))

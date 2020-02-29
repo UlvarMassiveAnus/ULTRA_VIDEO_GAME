@@ -22,7 +22,7 @@ class MenuScene:
 
     def move(self):
         m_keys = pygame.mouse.get_pressed()
-        if m_keys[2]:
+        if m_keys[0]:
             for p in self.puncts:
                 if p.state:
                     return p.pname
