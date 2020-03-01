@@ -12,7 +12,7 @@ class Steve:
         self.speed_x, self.speed_y = 0, 0
         self.onGround = False
         self.vector = 1
-        self.health = 100
+        self.health = 10000
         self.type = "steve"
         self.gun = Gun("enemy", 500)
         self.live = pygame.time.get_ticks()
@@ -83,7 +83,8 @@ class Enemy:
         self.health = 25
         self.type = "enemy"
         self.gun = Gun("steve", 1000)
-        self.animation = AnimatedSprite(["enemy_waiting_sheets", "enemy_shooting_sheets"], (self.w * 2, self.h))
+        self.animation = AnimatedSprite(["left_enemy_waiting_sheets", "right_enemy_waiting_sheets",
+                                         "left_enemy_shooting_sheets", "right_enemy_shooting_sheets"], (self.w + 25, self.h))
 
     def taking_damage(self):
         self.health -= 25
@@ -95,17 +96,17 @@ class Enemy:
             enemy_vector = 1
         if self.collision(player)[1] and self.gun.charged:
             if enemy_vector == 1:
-                self.animation.start(1)
+                self.animation.start(3)
             elif enemy_vector == -1:
-                self.animation.start(1)
+                self.animation.start(2)
             self.gun.charged = False
-            b = Bullet(self.x, self.y)
+            b = Bullet(self.x, self.y + 5)
             b.launch(enemy_vector)
             self.gun.cage.append(b)
             self.gun.start_recharge = pygame.time.get_ticks()
-        elif not self.collision(player)[1] and self.animation.cur_anim != 0:
+        elif not self.collision(player)[1]:
             if enemy_vector == 1:
-                self.animation.start(0)
+                self.animation.start(1)
             elif enemy_vector == -1:
                 self.animation.start(0)
 
@@ -114,7 +115,7 @@ class Enemy:
         self.animation.next()
         self.gun.recharge()
         self.gun.render(level, [player], canvas)
-        if self.animation.cur_anim == 1:
+        if self.animation.cur_anim == 0 or self.animation.cur_anim == 2:
             canvas.blit(self.animation.cur_frame, (self.x - (self.animation.cur_frame.get_width() - self.w), self.y))
         else:
             canvas.blit(self.animation.cur_frame, (self.x, self.y))

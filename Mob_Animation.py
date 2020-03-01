@@ -9,7 +9,7 @@ class AnimatedSprite:
         self.size = size
         self.frames_creator()
         self.cur_anim = 0
-        self.cur_anim_len = 2
+        self.cur_anim_len = 1
         self.cur_frame = self.frames[self.cur_anim][0]
         self.secs_anim = 0
 
@@ -22,7 +22,7 @@ class AnimatedSprite:
         self.cur_frame = self.frames[self.cur_anim][
             ((pygame.time.get_ticks() - self.secs_anim) // 250) % self.cur_anim_len]
 
-    def load_image(self, name, dir, color_key=None):
+    def load_image(self, name, dir, color_key=-1):
         fullname = os.path.join('data', dir, name)
         try:
             image = pygame.image.load(fullname).convert()
