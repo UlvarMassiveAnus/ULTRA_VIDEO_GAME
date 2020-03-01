@@ -13,12 +13,12 @@ class GameScene:
     def render(self):
         keys = pygame.key.get_pressed()
         if keys[pygame.K_a]:
-            if not any([keys[pygame.K_SPACE], keys[pygame.K_w]]) and self.player.onGround:
-                self.player.animation.start(5)
+            if not any([keys[pygame.K_SPACE], keys[pygame.K_w]]) and self.player.onGround and self.player.animation.cur_anim != 1:
+                self.player.animation.start(1)
             self.player.speed_x = -1.5
         if keys[pygame.K_d]:
-            if not any([keys[pygame.K_SPACE], keys[pygame.K_w]]) and self.player.onGround:
-                self.player.animation.start(1)
+            if not any([keys[pygame.K_SPACE], keys[pygame.K_w]]) and self.player.onGround and self.player.animation.cur_anim != 5:
+                self.player.animation.start(5)
             self.player.speed_x = 1.5
         if keys[pygame.K_w] and self.player.onGround:
             if not keys[pygame.K_SPACE]:
@@ -30,9 +30,9 @@ class GameScene:
             self.player.onGround = False
         if keys[pygame.K_SPACE] and self.player.gun.charged:
             if self.player.vector == -1:
-                self.player.animation.start(7)
-            elif self.player.vector == 1:
                 self.player.animation.start(3)
+            elif self.player.vector == 1:
+                self.player.animation.start(7)
             self.player.shoot()
         if self.player.speed_x == 0 and not any([keys[pygame.K_SPACE], keys[pygame.K_w]]) and self.player.onGround:
             if self.player.vector == -1:
@@ -65,17 +65,18 @@ class GameScene:
 
 class Level:
     def __init__(self, l_map, name):
-        self.spike_image = pygame.Surface((25, 25))
+        self.spike_image = pygame.transform.scale(pygame.image.load(os.path.join("data", "blocks", "spike.png")),
+                                                  (25, 25))
         self.block_image = pygame.transform.scale(pygame.image.load(os.path.join("data", "blocks", "block.png")),
                                                   (25, 25))
-        self.spike_image.fill(pygame.Color("red"))
 
         self.name = name
         self.map = l_map
         self.level = []
         self.level_spikes = []
         self.steve_spawn = None
-        self.level_canvas = pygame.Surface((800, 600))
+        self.level_canvas = pygame.transform.scale(pygame.image.load(os.path.join("data", "backgrounds", "Jungle.jpeg")),
+                                                  (800, 600))
         self.enemies = []
         self.create_level()
 

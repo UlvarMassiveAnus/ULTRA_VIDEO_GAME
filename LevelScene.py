@@ -1,5 +1,6 @@
 import pygame
 from MenuScene import MenuPunct
+import os
 
 
 class LevelScene:
@@ -8,10 +9,12 @@ class LevelScene:
         self.puncts_names = puncts_names
         self.canvas = canvas
         self.create_menu()
+        self.bg = pygame.transform.scale(pygame.image.load(os.path.join("data", "backgrounds", "Main_Menu.jpg")),
+                                         (800, 600))
 
     def render(self):
         mouse_coords = pygame.mouse.get_pos()
-        self.canvas.fill((100, 100, 0))
+        self.canvas.blit(self.bg, (0, 0))
         for punct in self.puncts:
             punct.hover(mouse_coords)
             if punct.state:
@@ -23,7 +26,6 @@ class LevelScene:
 
     def move(self):
         m_keys = pygame.mouse.get_pressed()
-        # keys = pygame.key.get_pressed()
         if m_keys[0]:
             for p in self.puncts:
                 if p.pname == "назад" and p.state:

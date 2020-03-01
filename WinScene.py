@@ -1,5 +1,6 @@
 import pygame
 import sqlite3
+import os
 
 
 class WinScene:
@@ -8,8 +9,9 @@ class WinScene:
         self.lvl = lvl
         self.time = int(time) / 1000
         self.deaths = deaths
-        self.scene_image = pygame.Surface((500, 500))
-        self.scene_image.fill((255, 255, 255))
+        self.scene_image = pygame.transform.scale(pygame.image.load(os.path.join("data", "backgrounds", "Winer.jpg")),
+                                         (500, 500))
+
 
     def render(self):
         time_text = f"TIME: {self.time} secs"

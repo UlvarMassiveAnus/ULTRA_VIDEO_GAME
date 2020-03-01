@@ -1,4 +1,5 @@
 import pygame
+import os
 
 
 class MenuScene:
@@ -7,10 +8,12 @@ class MenuScene:
         self.puncts_names = puncts_names
         self.canvas = canvas
         self.create_menu()
+        self.bg = pygame.transform.scale(pygame.image.load(os.path.join("data", "backgrounds", "Main_Menu.jpg")),
+                                                  (800, 600))
 
     def render(self):
         mouse_coords = pygame.mouse.get_pos()
-        self.canvas.fill((100, 100, 0))
+        self.canvas.blit(self.bg, (0, 0))
         for punct in self.puncts:
             punct.hover(mouse_coords)
             if punct.state:

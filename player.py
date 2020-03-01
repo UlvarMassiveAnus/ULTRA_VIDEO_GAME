@@ -17,10 +17,10 @@ class Steve:
         self.gun = Gun("enemy", 500)
         self.live = pygame.time.get_ticks()
         self.deaths = 0
-        self.animation = AnimatedSprite(["left_1", "left_2",
-                                         "left_3", "left_4",
-                                         "right_1", "right_2",
-                                         "right_3", "right_4"], (self.w, self.h))
+        self.animation = AnimatedSprite(["left_steve_waiting_sheets", "left_steve_runing_sheets",
+                                         "left_steve_jumping_sheets", "left_steve_shooting_sheets",
+                                         "right_steve_waiting_sheets", "right_steve_runing_sheets",
+                                         "right_steve_jumping_sheets", "right_steve_shooting_sheets"], (self.w + 10, self.h + 10))
 
     def update(self, level):
         self.speed_y += 0.3  # is gravity
@@ -76,7 +76,7 @@ class Steve:
 
     def shoot(self):
         self.gun.charged = False
-        b = Bullet(self.x, self.y)
+        b = Bullet(self.x, self.y + 10)
         b.launch(self.vector)
         self.gun.cage.append(b)
         self.gun.start_recharge = pygame.time.get_ticks()

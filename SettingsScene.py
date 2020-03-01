@@ -1,14 +1,17 @@
 import pygame
 from MenuScene import MenuPunct
+import os
 
 
 class SettingsScene:
     def __init__(self, canvas):
         self.canvas = canvas
         self.back = MenuPunct((0, 525, 120, 75), "Назад")
+        self.bg = pygame.transform.scale(pygame.image.load(os.path.join("data", "backgrounds", "Main_Menu.jpg")),
+                                         (800, 600))
 
     def render(self):
-        self.canvas.fill((100, 100, 0))
+        self.canvas.blit(self.bg, (0, 0))
         self.back.hover(pygame.mouse.get_pos())
         if self.back.state:
             color = (255, 255, 0)
