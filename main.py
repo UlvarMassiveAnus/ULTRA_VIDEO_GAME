@@ -48,7 +48,7 @@ while run:
     elif nextScene[0] == "exit":
         run = False
     elif nextScene[0] == "win":
-        win = WinScene(screen, nextScene[2], nextScene[1])
+        win = WinScene(screen, nextScene[2], nextScene[1], nextScene[3])
         current_scene = win
 
     window.blit(screen, (0, 0))

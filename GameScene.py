@@ -55,7 +55,7 @@ class GameScene:
     def move(self):
         keys = pygame.key.get_pressed()
         if len(self.level.enemies) == 0:
-            return f"win_{self.player.deaths}_{pygame.time.get_ticks() - self.player.live}"
+            return f"win_{self.player.deaths}_{pygame.time.get_ticks() - self.player.live}_{self.level.name}"
         elif keys[pygame.K_BACKSPACE]:
             return "play"
         elif keys[pygame.K_r]:
