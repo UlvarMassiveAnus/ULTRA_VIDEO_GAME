@@ -17,6 +17,10 @@ class Steve:
         self.gun = Gun("enemy", 500)
         self.live = pygame.time.get_ticks()
         self.deaths = 0
+        self.animation = AnimatedSprite(["left_1", "left_2",
+                                         "left_3", "left_4",
+                                         "right_1", "right_2",
+                                         "right_3", "right_4"], (self.w, self.h))
 
     def update(self, level):
         self.speed_y += 0.3  # is gravity
@@ -57,7 +61,8 @@ class Steve:
         self.deaths += 1
 
     def render(self, surface):
-        pygame.draw.rect(surface, pygame.Color('gray'), [self.x, self.y, self.w, self.h], 0)
+        self.animation.next()
+        surface.blit(self.animation.cur_frame, (self.x, self.y))
 
     def collision(self, other):
         x_collision = (self.w + other.w) >= max(abs(other.x + other.w - self.x), abs(self.x + self.w - other.x))

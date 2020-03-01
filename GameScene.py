@@ -13,14 +13,32 @@ class GameScene:
     def render(self):
         keys = pygame.key.get_pressed()
         if keys[pygame.K_a]:
+            if not any([keys[pygame.K_SPACE], keys[pygame.K_w]]) and self.player.onGround:
+                self.player.animation.start(5)
             self.player.speed_x = -1.5
         if keys[pygame.K_d]:
+            if not any([keys[pygame.K_SPACE], keys[pygame.K_w]]) and self.player.onGround:
+                self.player.animation.start(1)
             self.player.speed_x = 1.5
         if keys[pygame.K_w] and self.player.onGround:
+            if not keys[pygame.K_SPACE]:
+                if self.player.vector == 1:
+                    self.player.animation.start(6)
+                elif self.player.vector == -1:
+                    self.player.animation.start(2)
             self.player.speed_y = -10
             self.player.onGround = False
         if keys[pygame.K_SPACE] and self.player.gun.charged:
+            if self.player.vector == -1:
+                self.player.animation.start(7)
+            elif self.player.vector == 1:
+                self.player.animation.start(3)
             self.player.shoot()
+        if self.player.speed_x == 0 and not any([keys[pygame.K_SPACE], keys[pygame.K_w]]) and self.player.onGround:
+            if self.player.vector == -1:
+                self.player.animation.start(0)
+            elif self.player.vector == 1:
+                self.player.animation.start(4)
 
         self.canvas.blit(self.level.level_canvas, (0, 0))
 
@@ -37,7 +55,7 @@ class GameScene:
     def move(self):
         keys = pygame.key.get_pressed()
         if len(self.level.enemies) == 0:
-            return  f"win_{self.player.deaths}_{pygame.time.get_ticks() - self.player.live}"
+            return f"win_{self.player.deaths}_{pygame.time.get_ticks() - self.player.live}"
         elif keys[pygame.K_BACKSPACE]:
             return "play"
         elif keys[pygame.K_r]:
@@ -48,10 +66,10 @@ class GameScene:
 class Level:
     def __init__(self, l_map, name):
         self.spike_image = pygame.Surface((25, 25))
-        self.block_image = pygame.transform.scale(pygame.image.load(os.path.join("data", "blocks", "block.png")), (25, 25))
+        self.block_image = pygame.transform.scale(pygame.image.load(os.path.join("data", "blocks", "block.png")),
+                                                  (25, 25))
         self.spike_image.fill(pygame.Color("red"))
 
-        # self.block_image.fill(pygame.Color("yellow"))
         self.name = name
         self.map = l_map
         self.level = []
