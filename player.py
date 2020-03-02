@@ -12,7 +12,7 @@ class Steve:
         self.speed_x, self.speed_y = 0, 0
         self.onGround = False
         self.vector = 1
-        self.health = 10000
+        self.health = 100
         self.type = "steve"
         self.gun = Gun("enemy", 500)
         self.live = pygame.time.get_ticks()
