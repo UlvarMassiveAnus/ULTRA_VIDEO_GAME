@@ -6,6 +6,8 @@ from SettingsScene import SettingsScene
 from WinScene import WinScene
 
 pygame.init()
+pygame.mixer.music.load('data/OST.mp3')
+pygame.mixer.music.play(-1)
 size = width, height = 800, 600
 window = pygame.display.set_mode(size)
 screen = pygame.Surface(size)
